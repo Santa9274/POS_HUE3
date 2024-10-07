@@ -91,4 +91,10 @@ public class Weapon {
     public int hashCode() {
         return Objects.hash(name, combatType, damageType, damage, speed, strength, value);
     }
+
+//    @Override
+//    public String toString()
+//    {
+//        return String.format("Name: %s, CombatType: %s, DamageType: %s, Damage: %d, Speed: %d, Strength: %d, Value: %d \n", name, combatType.name(), damageType.name(),damage,speed,strength,value);
+//    }
 }

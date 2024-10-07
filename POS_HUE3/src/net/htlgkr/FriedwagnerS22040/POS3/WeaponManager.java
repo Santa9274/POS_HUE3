@@ -6,10 +6,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeaponManager
 {
-    List<Weapon> arrayList;
+    private List<Weapon> arrayList = new ArrayList<>();
 
     public List<Weapon> readFile()
     {
@@ -26,26 +27,32 @@ public class WeaponManager
                             Integer.parseInt(s[5]),
                             Integer.parseInt(s[6])
                     ))
-                    .toList();
+                    .collect(Collectors.toList());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-
         return arrayList;
     }
 
-    public void sortByDamage()
+    public void sortByDamage(List<Weapon> arrayList)
     {
-        arrayList.stream().sorted(Comparator.comparingInt(Weapon::getDamage));
+        arrayList.sort((o1, o2) -> o2.getDamage() - o1.getDamage());
     }
 
-    public void sortAlphapetic()
+    public void sortAlphabetic(List<Weapon> arrayList)
     {
-        arrayList.sort(
-                Comparator.comparing((Weapon w) -> w.getCombatType().toString())
-                        .thenComparing(w -> w.getDamageType().toString())
-                        .thenComparing(Weapon::getName)
-        );
+        arrayList.sort((Comparator<Weapon>) (o1, o2) ->
+        {
+            int difference = o1.getCombatType().toString().compareTo(o2.getCombatType().toString());
+
+            if (difference != 0) return difference;
+
+            difference = o1.getDamageType().toString().compareTo(o2.getDamageType().toString());
+
+            if (difference != 0) return difference;
+            else return o1.getName().compareTo(o2.getName());
+        });
     }
 }
